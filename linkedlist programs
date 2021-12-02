@@ -1,0 +1,184 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct slist
+{
+    int ele;
+    struct slist *next;
+};
+typedef struct slist node;
+node *create(node* first)
+{
+    node *new,*prev;
+    int x;
+    printf("enter x value");
+    scanf("%d",&x);
+    while(x!=-1)
+    {
+        new=(node *)malloc(sizeof(node));
+        new->ele=x;
+        new->next=NULL;
+        if(first==NULL)
+        {
+            first=new;
+            prev=new;
+        }
+        else
+        {
+            prev->next=new;
+            prev=new;
+        }
+        printf("enter x(enter-1 to stop");
+        scanf("%d",&x);
+    }
+    return first;
+}
+void display(node *first)
+{
+    node *temp=first;
+    if(first==NULL)
+    {
+        printf("no list to print");
+    }
+    while(temp!=NULL)
+    {
+        printf("|%d|",temp->ele);
+        temp=temp->next;
+    }
+    printf("NULL");
+}
+int count(node *first)
+{
+    int c=0;
+    node *temp=first;
+    while(temp!=NULL)
+    {
+        c=c+1;
+        temp=temp->next;
+    }
+    return c;
+}
+void search(node *first,int x)
+{
+    node *temp;
+    temp=first;
+    int flag=0;
+    while(temp!=NULL)
+    {
+        if(temp->ele==x)
+        {
+            flag=1;
+            break;
+        }
+        else
+        {
+            temp=temp->next;
+        }
+    }
+    
+    if(flag==1)
+    {
+        printf("element %d is found ",x);
+    }
+    else
+    {
+        printf("element is not found");
+    }
+    
+}
+node *insert_at_begin(node *first,int x)
+{
+    node *new;
+    new=(node *)malloc(sizeof(node));
+    new->ele=x;
+    new->next=NULL;
+    if(first==NULL)
+    {
+        first=new;
+    }
+    else
+    {
+        new->next=first;
+        first=new;
+    }
+    return first;
+}
+node *insert_at_end(node *first,int x)
+{
+    node *new,*temp=first;
+    new=(node *)malloc(sizeof(node));
+    new->ele=x;
+    new->next=NULL;
+    if(first==NULL)
+    {
+        first=new;
+    }
+    else
+    {
+        while(temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=new;
+    }
+    return first;
+}
+node *insert_at_pos(node *first,int pos,int x)
+{
+    node *temp=first;
+    node *new;
+    int i;
+    int n=count(first);
+    if(pos>1&&pos<n)
+    {
+        new=(node *)malloc(sizeof(node));
+        new->ele=x;
+        new->next=NULL;
+        for(i=1;i<pos-1;i++)
+        {
+            temp=temp->next;
+        }
+        new->next=temp->next;
+        temp->next=new;
+    }
+    return first;
+}
+        
+        
+    
+
+        
+    
+    
+
+
+
+    
+void main()
+{
+    node* head;
+    int n,p,pos;
+    head=NULL;
+    head=create(head);
+    display(head);
+    n=count(head);
+    printf("count=%d",n);
+    printf("enter element");
+    scanf("%d",&p);
+    search(head,p);
+    printf("enter element to insert");
+    scanf("%d",&p);
+    head=insert_at_begin(head,p);
+    display(head);
+    printf("enter element to be insert at end");
+    scanf("%d",&p);
+    head=insert_at_end(head,p);
+    display(head);
+    printf("enter position");
+    scanf("%d",&pos);
+    printf("enter element");
+    scanf("%d",&p);
+    head=insert_at_pos(head,pos,p);
+    display(head)
+    
+    
+}
