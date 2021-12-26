@@ -1,0 +1,285 @@
+include<stdlib.h>
+#include<stdio.h>
+struct dlist
+{
+        int data;
+        struct dlist *left;
+        struct dlist *right;
+};
+typedef struct dlist node;
+node* create(node *first)
+{
+              node *new,*prev;
+              int x;
+              printf("enter x");
+              scanf("%d",&x);
+              while(x!=-1)
+              {
+                new=(node*)malloc(sizeof(node));
+                new->data=x;
+                new->left=new->right=NULL;
+                if(first==NULL)
+                {
+                        first=new;
+
+                }
+                else
+                {
+                        prev->right=new;
+                        new->left=prev;
+                }
+                prev=new;
+                printf("enter data into dll(enter -1 to stop)");
+                scanf("%d",&x);
+        }
+        return first;
+}
+void display(node *first)
+{
+        node *temp=first;
+        if(first==NULL)
+        {
+                printf("no list to print");
+        }
+        else
+        {
+                printf("NULL");
+        while(temp!=NULL)
+        {
+                printf("<-|%d|->",temp->data);
+                temp=temp->right;
+
+        }
+        }
+}
+int count(node *first)
+{
+        node *temp=first;
+        int c=0;
+        while(temp!=NULL)
+        {
+                c++;
+                temp=temp->right;
+        }
+        return c;
+}
+void search(node *first,int x)
+{
+        node *temp=first;
+        int flag=0;
+        if(first==NULL)
+        {
+                printf("no list to search");
+        }
+        else
+        {
+                while(temp!=NULL)
+                {
+                        if(temp->data==x)
+                        {
+                                flag=1;
+                                break;
+                        }
+                        else
+                        {
+                                temp=temp->right;
+                        }
+                }
+                if(flag==1)
+                {
+                        printf("element %d is found",x);
+                }
+                else
+                {
+                        printf("element is not found");
+                }
+
+        }
+
+}
+node* insert_begin(node *first,int x)
+{
+        node *new;
+        new=(node*)malloc(sizeof(node));
+        new->data=x;
+        new->right=new->left=NULL;
+        if(first==NULL)
+        {
+                first=new;
+        }
+        else
+        {
+                new->right=first;
+                first->left=new;
+                first=new;
+
+
+        }
+        return first;
+}
+node* insert_end(node *first,int x)
+{
+        node *temp=first;
+        node *new;
+        new=(node*)malloc(sizeof(node));
+        new->data=x;
+        new->left=new->right=NULL;
+        if(first==NULL)
+        {
+                first=new;
+        }
+        else
+        {
+                while(temp->right!=NULL)
+                {
+                        temp=temp->right;
+                }
+                temp->right=new;
+                new->left=temp;
+
+        }
+        return first;
+}
+node* insert_pos(node *first,int x,int pos)
+{
+        node *new,*temp;
+        temp=first;
+        int i,n;
+        n=count(first);
+        if(pos>1&&pos<n)
+        {
+        new=(node*)malloc(sizeof(node));
+        new->data=x;
+        new->left=new->right=NULL;
+        for(i=1;i<pos-1;i++)
+        {
+                temp=temp->right;
+        }
+        new->right=temp->right;
+        temp->right->left=new;
+        temp->right=new;
+        new->left=temp;
+
+
+
+        }
+        return first;
+}
+node *delete(node *first,int pos)
+{
+    node *temp,*p;
+    int i;
+    temp=first;
+    if(first==NULL)
+    {
+        printf("no list to delete");
+        
+    }
+    else if(pos==1)
+    {
+        first=temp->right;
+        first->left=NULL;
+        free(temp);
+        
+    }
+    else
+    {
+        for(i=1;i<pos-1;i++)
+        {
+            temp=temp->right;
+        }
+        p=temp->right;
+        temp->right=p->right;
+        free(p);
+        
+    }
+    return first;
+}
+node* sort(node *first)
+{
+        node *temp,*temp1;
+        int x;
+        for(temp=first;temp->right!=NULL;temp=temp->right)
+        {
+                for(temp1=temp->right;temp1!=NULL;temp1=temp1->right)
+                {
+                        if(temp->data>temp1->data)
+                        {
+                                x=temp->data;
+                                temp->data=temp1->data;
+                                temp1->data=x;
+                        }
+                }
+        }
+        return first;
+}
+node *reverse(node *first)
+{
+    node *present,*prev,*save;
+    present=first;
+    prev=NULL;
+    while(present!=NULL)
+    {
+        save=present->right;
+        present->right=prev;
+        prev=present;
+        present=save;
+    }
+    return prev;
+}
+
+void main()
+{
+        node *head;
+        int n,x,pos,ch;
+        head=NULL;
+        while(1)
+        {
+            printf("\n1.create\n2.display\n3.count\n4.search\n5.insert at begin\n6.insert at pos\n");
+            printf("\n7.insert at end\n8.delete\n9.sort\n10.reverse\n11.exit\n");
+            printf("enter your choice");
+            scanf("%d",&ch);
+            switch(ch)
+            {
+                case 1:head=create(head);
+                       break;
+                case 2:printf("the elements in the list are");
+                       display(head);
+                       break;
+                case 3:count(head);
+                       printf("no of nodes in given dll is%d",n);
+                       break;
+                case 4:printf("enter ele to search");
+                       scanf("%d",&x);
+                       search(head,x);
+                       break;
+                case 5:printf("enter ele to inserted");
+                       scanf("%d",&x);
+                       head=insert_begin(head,x);
+                       break;
+                case 6:printf("enter ele to insert");
+                       scanf("%d",&x);
+                       printf("enter position");
+                       scanf("%d",&pos);
+                       head=insert_pos(head,pos,x);
+                       break;
+                case 7:printf("enter ele to insert at end");
+                       scanf("%d",&x);
+                       head=insert_end(head,x);
+                       break;
+                case 8:printf("enter position to delete");
+                       scanf("%d",&pos);
+                       head=delete(head,pos);
+                       break;
+                case 9:head=sort(head);
+                       break;
+                case 10:head=reverse(head);
+                        break;
+                case 11:exit(0);
+            }
+        }
+}
+
+
+
+
