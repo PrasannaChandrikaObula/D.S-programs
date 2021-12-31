@@ -1,0 +1,287 @@
+#include<stdlib.h>
+#include<stdio.h>
+struct slist
+{
+int data;
+struct slist *next;
+};
+typedef struct slist node;
+node* create(node *first)
+{
+node *new,*prev;
+int x;
+printf("enter x");
+scanf("%d",&x);
+while(x!=-1)
+{
+new=(node*)malloc(sizeof(node));
+new->data=x;
+new->next=NULL;
+if(first==NULL)
+{
+first=new;
+}
+else
+{
+prev->next=new;
+}
+
+prev=new;
+printf("enter x(enter -1 to stop");
+scanf("%d",&x);
+}
+return first;
+}
+void display(node *first)
+{
+node *temp;
+temp=first;
+if(first==NULL)
+{
+printf("no list to print");
+}
+else
+{
+while(temp!=NULL)
+{
+printf("|%d|->",temp->data);
+temp=temp->next;
+}
+printf("NULL");
+}
+}
+node *sort(node *first)
+{
+node *temp,*temp1;
+int x;
+for(temp=first;temp->next!=NULL;temp=temp->next)
+{
+for(temp1=temp->next;temp1!=NULL;temp1=temp1->next)
+{
+if(temp->data>temp1->data)
+{
+x=temp->data;
+temp->data=temp1->data;
+temp1->data=x;
+}
+}
+}
+return first;
+}
+node* concatenate(node *l1,node *l2)
+{
+node *temp;
+if(l1==NULL)
+{
+return l2;
+}
+else if(l2==NULL)
+{
+return l1;
+}
+else
+{
+temp=l1;
+while(temp->next!=NULL)
+{
+temp=temp->next;
+}
+temp->next=l2;
+}
+return l1;
+}
+node* addnode(node*, node*);
+node* intersection(node *l,node *m)
+{
+node *l3=NULL,*new;
+while(l!=NULL&&m!=NULL)
+{
+if(l->data>m->data)
+{
+m=m->next;
+}
+else if(m->data>l->data)
+{
+l=l->next;
+}
+else
+{
+new=(node*)malloc(sizeof(node));
+new->data=l->data;
+new->next=NULL;
+
+l3=addnode(l3,new);
+l=l->next;
+m=m->next;
+}
+
+}
+
+return l3;
+}
+node* addnode(node *l3,node *new)
+{
+node *temp;
+
+if(l3==NULL)
+{
+l3=new;
+}
+else
+{
+temp=l3;
+while(temp->next!=NULL)
+{
+temp=temp->next;
+}
+temp->next=new;
+}
+return l3;
+}
+node *listsunion(node *l,node *m)
+{
+node *new,*l3=NULL;
+while(l!=NULL && m!=NULL)
+{
+new=(node *)malloc(sizeof(node));
+if(l->data<m->data)
+{
+new->data=l->data;
+new->next=NULL;
+l3=addnode(l3,new);
+l=l->next;
+}
+else if(m->data<l->data)
+{
+new->data=m->data;
+new->next=NULL;
+l3=addnode(l3,new);
+m=m->next;
+}
+else
+{
+new->data=l->data;
+new->next=NULL;
+l3=addnode(l3,new);
+l=l->next;
+m=m->next;
+}
+}
+if(l==NULL)
+{
+while(m!=NULL)
+{
+new=(node *)malloc(sizeof(node));
+new->data=m->data;
+new->next=NULL;
+l3=addnode(l3,new);
+m=m->next;
+}
+}
+if(m==NULL)
+{
+while(l!=NULL)
+{
+new=(node *)malloc(sizeof(node));
+new->data=l->data;
+new->next=NULL;
+l3=addnode(l3,new);
+l=l->next;
+}
+}
+return l3;
+}
+node *listmerge(node *l,node *m)
+{
+node *new,*l3=NULL,*prev;
+while(l!=NULL && m!=NULL)
+{
+new=(node *)malloc(sizeof(node));
+prev=(node*)malloc(sizeof(node));
+if(l->data<m->data)
+{
+new->data=l->data;
+new->next=NULL;
+l3=addnode(l3,new);
+l=l->next;
+}
+else if(m->data<l->data)
+{
+new->data=m->data;
+new->next=NULL;
+l3=addnode(l3,new);
+m=m->next;
+}
+else
+{
+new->data=l->data;
+new->next=NULL;
+prev->data=l->data;
+prev->next=NULL;
+l3=addnode(l3,new);
+l3=addnode(l3,prev);
+l=l->next;
+m=m->next;
+}
+}
+if(l==NULL)
+{
+while(m!=NULL)
+{
+new=(node *)malloc(sizeof(node));
+new->data=m->data;
+new->next=NULL;
+l3=addnode(l3,new);
+m=m->next;
+}
+}
+if(l==NULL)
+{
+while(m!=NULL)
+{
+new=(node *)malloc(sizeof(node));
+new->data=l->data;
+new->next=NULL;
+l3=addnode(l3,new);
+m=m->next;
+}
+}
+return l3;
+}
+void main()
+{
+node *head=NULL,*l1,*l2,*l3,*l,*m;
+int ch;
+l1=create(head);
+l=sort(l1);
+
+l2=create(head);
+m=sort(l2);
+
+while(1)
+{
+    printf("\n1.intersection\n2.union\n 3.merge\n 4.concatenation\n5.exit\n");
+    printf("enter choice");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+        case 1:printf("intersection of two lists");
+               l3=intersection(l,m);
+               display(l3);
+               break;
+        case 2:printf("union of two lists");
+               l3=listsunion(l,m);
+               display(l3);
+               break;
+        case 3:printf("after merging");
+               l3=listmerge(l,m);
+               display(l3);
+               break;
+        case 4:printf("concatinating two lists");
+               l3=concatenate(l1,l2);
+               display(l3);
+               break;
+        case 5:exit(0);
+    }
+}
+}
