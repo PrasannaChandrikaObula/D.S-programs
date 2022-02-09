@@ -1,0 +1,120 @@
+/******************************************************************************
+
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include<stdio.h>
+#include<ctype.h>
+# define Max 10
+void push(char);
+char pop();
+void precedence(char);
+int priority(char);
+char postfix[Max],a[Max];
+int j=0,top=-1;
+void main()
+{
+    char infix[Max],x,ch;
+    int i;
+    printf("\n enter infix expression\n");
+    scanf("%s",infix);
+    i=0;
+    while(infix[i]!='\0')
+    {
+        ch=infix[i];
+        if(isalpha(ch)||isdigit(ch))
+        {
+          postfix[j]=ch;
+          j=j+1;
+        }
+        else
+        {
+            switch(ch)
+            {
+                case '(':push(ch);
+                         break;
+                case '^': precedence(ch);
+                          push(ch);
+                          break;
+                case '*': precedence(ch);
+                          push(ch);
+                          break;
+                case '%': precedence(ch);
+                          push(ch);
+                          break;
+                case '/': precedence(ch);
+                          push(ch);
+                          break;
+                case '+': precedence(ch);
+                          push(ch);
+                          break;
+                case '-': precedence(ch);
+                          push(ch);
+                          break;
+                         
+           
+               
+                case ')':x=pop();
+                         while(x!='(')
+                         {
+                             postfix[j]=x;
+                             j=j+1;
+                             x=pop();
+                             
+                         }
+                         break;
+            }
+        }
+        i++;
+       
+    }
+   
+    while(top!=-1)
+    {
+            postfix[j]=pop();
+           
+            j=j+1;
+    }
+    postfix[j]='\0';
+    printf("the post fix expression of given infix expression is%s=%s",infix,postfix);
+}
+void precedence(char ch)
+{
+    while(priority(ch)<=priority(a[top]))
+    {
+        postfix[j]=pop();
+       
+        j=j+1;
+    }
+}
+int priority(char ch)
+{
+    if(ch=='^')
+    return 3;
+    else if(ch=='*'||ch=='%'||ch=='/')
+    return 2;
+    else if(ch=='+'||ch=='-')
+    return 1;
+    else
+    return 0;
+}
+void push(char ch)
+{
+    
+    a[++top]=ch;
+    
+}
+char pop()
+{
+    return a[top--];
+}
+
+
+
+
+    
+
+
