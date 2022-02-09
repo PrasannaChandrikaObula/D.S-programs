@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include<ctype.h>
+#include<math.h>
+#define max 10
+int operation (int, int, char);
+void push (int);
+int pop ();
+int a[max], top =-1;
+void main ()
+{
+  char postfix[max], ch;
+  int i, op2, op1, result,c;
+  printf ("enter postfix expression");
+  scanf ("%s", postfix);
+  i = 0;
+  while (postfix[i] != '\0')
+    {
+      ch = postfix[i];
+      if (isdigit(ch))
+{
+   
+ push(ch-'0');
+ 
+}
+      else
+{
+ op2 = pop ();
+ op1 = pop ();
+ result = operation (op1, op2, ch);
+ push (result);
+ 
+}
+      i++;
+    }
+  printf ("after evaluating postfix expression=%d", a[0]);
+}
+
+int operation (int op1, int op2, char ch)
+{
+  switch (ch)
+    {
+    case '^':
+      return (pow (op1, op2));
+    case '*':
+      return (op1 * op2);
+    case '%':
+      return (op1 % op2);
+    case '/':
+      return (op1 / op2);
+    case '+':
+      return (op1 + op2);
+    case '-':
+      return (op1 - op2);
+
+
+
+    }
+}
+
+void push(int x)
+{
+   
+  a[++top] = x;
+  
+}
+
+int pop ()
+{
+  int x;
+  x = a[top];
+  top = top - 1;
+  return x;
+}
+
+
