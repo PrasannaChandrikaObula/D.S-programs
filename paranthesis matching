@@ -1,0 +1,81 @@
+#include<stdio.h>
+# define max 10
+void push(char);
+char pop();
+char a[max];
+int top=-1;
+void main()
+{
+        char exp[max],ch;
+        int x,i=0,flag=0;
+        printf("\n enter any expression");
+        scanf("%s",exp);
+        while(exp[i]!=0)
+        {
+                ch=exp[i];
+                if(ch=='('||ch=='['||ch=='{')
+                {
+                        push(ch);
+                }
+                if(ch==')'||ch==']'||ch=='}')
+                {
+                    if(top==-1)
+                    {
+                        flag=0;
+                        break;
+                    }
+                   
+                    else
+                    {
+                        x=pop();
+                        if((x=='('&&ch==')')||(x=='['&&ch==']')||(x=='{'&&ch=='}'))
+                    {
+                        flag=1;
+                    }
+                   
+                    else
+                    {
+                        flag=0;
+                        break;
+                    }
+                    }
+                }
+                i++;
+        }
+                    if(top!=-1)
+                    {
+                        flag=0;
+                   
+                       
+                    }
+                    if(flag==1)
+                    {
+                        printf("paranthesis matched");
+                    }
+                    else
+                    {
+                        printf("paranthesis not matched");
+                    }
+}
+void push(char ch)
+{
+    top=top+1;
+    a[top]=ch;
+}
+char pop()
+{
+    int x;
+    x=a[top];
+    top=top-1;
+    return x;
+}
+
+   
+
+
+                       
+                   
+                   
+               
+           
+                     
