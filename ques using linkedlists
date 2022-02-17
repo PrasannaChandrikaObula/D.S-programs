@@ -1,0 +1,102 @@
+#include<stdio.h>
+# include <stdlib.h>
+struct ques
+{
+    int data;
+    struct ques *next;
+   
+};
+typedef struct ques node;
+node *front=NULL,*rear=NULL;
+void enque(int x)
+{
+    node *new;
+    new=(node *)malloc(sizeof(node));
+    new->data=x;
+    new->next=NULL;
+    if(front==NULL)
+    {
+        front=rear=new;
+    }
+    else
+    {
+        rear->next=new;
+        rear=new;
+    }
+}
+int deque()
+{
+    int x;
+    node *temp;
+    if(front==NULL)
+    {
+        return -1;
+    }
+    else
+    {
+        x=front->data;
+        if(front==rear)
+        {
+            front=rear=NULL;
+           
+        }
+        else
+        {
+            temp=front;
+            front=front->next;
+            free(temp);
+        }
+        return x;
+    }
+}
+void display()
+{
+    node *temp=front;
+    if(front==NULL)
+    {
+        printf("no elements to display");
+    }
+    else
+    {
+    while(temp!=NULL)
+    {
+        printf("%d\n",temp->data);
+        temp=temp->next;
+    }
+    }
+}
+   
+   
+   
+void main()
+{
+    int x,ch;
+    while(1)
+    {
+    printf("1.enque\n2.deque\n3.display\n4.exit\n");
+    printf("enter choice");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+        case 1:printf("enter element to push");
+               scanf("%d",&x);
+               enque(x);
+               break;
+        case 2:x=deque();
+               if(x==-1)
+                {
+                    printf("no element to delete");
+                }
+                else
+                {
+                    printf("deleted element is %d\n",x);
+                }
+                break;
+        case 3:printf("displaying the array\n");
+               display();
+               break;
+        case 4:exit(0);
+               break;
+    }
+    }
+}
